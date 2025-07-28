@@ -11,7 +11,7 @@ function Stores() {
 
   const fetchStores = async () => {
     try {
-      const response = await fetch('/api/stores', {
+      const response = await fetch('/api/store', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
       const data = await response.json()
@@ -25,7 +25,7 @@ function Stores() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/stores', {
+      const response = await fetch('/api/store', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,9 +42,26 @@ function Stores() {
     }
   }
 
+  const handleDeactivate = async (id) => {
+    try {
+      const response = await fetch(`/api/store/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({ is_active: false })
+      })
+      if (!response.ok) throw new Error('Failed to deactivate store')
+      setStores(stores.map(store => store.id === id ? { ...store, is_active: false } : store))
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`/api/stores/${id}`, {
+      const response = await fetch(`/api/store/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
@@ -90,6 +107,7 @@ function Stores() {
             <tr>
               <th>Name</th>
               <th>Location</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -98,7 +116,9 @@ function Stores() {
               <tr key={store.id}>
                 <td>{store.name}</td>
                 <td>{store.location}</td>
-                <td>
+                <td>{store.is_active ? 'Active' : 'Inactive'}</td>
+                <td className="action-buttons">
+                  <button className="btn btn-warning" onClick={() => handleDeactivate(store.id)}>Deactivate</button>
                   <button className="btn btn-danger" onClick={() => handleDelete(store.id)}>Delete</button>
                 </td>
               </tr>

@@ -1,32 +1,33 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 function Register() {
   const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
   const [token, setToken] = useState('')
-  const [searchParams] = useSearchParams()
+  const [error, setError] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
 
+  // Extract token from URL query params
   useEffect(() => {
-    const tokenFromUrl = searchParams.get('token')
-    if (tokenFromUrl) {
-      setToken(tokenFromUrl)
-    } else {
-      setError('No invitation token provided')
+    const params = new URLSearchParams(location.search)
+    const inviteToken = params.get('token')
+    if (inviteToken) {
+      setToken(inviteToken)
     }
-  }, [searchParams])
+  }, [location])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch(`/api/auth/register-admin-with-token?token=${token}`, {
+      const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password, token }),
       })
       const data = await response.json()
       if (!response.ok) {
@@ -41,7 +42,7 @@ function Register() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Register as Admin</h2>
+        <h2>Admin Registration</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -55,6 +56,16 @@ function Register() {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -64,7 +75,17 @@ function Register() {
               required
             />
           </div>
-          <button type="submit" disabled={!token}>Register</button>
+          <div className="form-group">
+            <label htmlFor="token">Invitation Token</label>
+            <input
+              type="text"
+              id="token"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Register</button>
         </form>
       </div>
     </div>

@@ -16,7 +16,7 @@ function SupplyRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch('/api/supply_requests', {
+      const response = await fetch('/api/supply-requests', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
       const data = await response.json()
@@ -29,7 +29,7 @@ function SupplyRequests() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/products', {
+      const response = await fetch('/api/product', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
       const data = await response.json()
@@ -42,7 +42,7 @@ function SupplyRequests() {
 
   const fetchStores = async () => {
     try {
-      const response = await fetch('/api/stores', {
+      const response = await fetch('/api/store', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
       const data = await response.json()
@@ -56,7 +56,7 @@ function SupplyRequests() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/supply_requests', {
+      const response = await fetch('/api/supply-requests', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,13 +78,26 @@ function SupplyRequests() {
 
   const handleApprove = async (id) => {
     try {
-      const response = await fetch(`/api/supply_requests/${id}/approve`, {
+      const response = await fetch(`/api/supply-requests/${id}/approve`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
       })
       const data = await response.json()
       if (!response.ok) throw new Error(data.message || 'Failed to approve request')
       setRequests(requests.map(req => req.id === id ? { ...req, status: 'Approved' } : req))
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/supply-requests/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+      })
+      if (!response.ok) throw new Error('Failed to delete supply request')
+      setRequests(requests.filter(req => req.id !== id))
     } catch (err) {
       setError(err.message)
     }
@@ -157,7 +170,7 @@ function SupplyRequests() {
               <th>Quantity Requested</th>
               <th>Status</th>
               <th>Notes</th>
-              {userType === 'admin' && <th>Actions</th>}
+              {(userType === 'admin' || userType === 'merchant') && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -168,9 +181,14 @@ function SupplyRequests() {
                 <td>{req.quantity_requested}</td>
                 <td>{req.status}</td>
                 <td>{req.notes || '-'}</td>
-                {userType === 'admin' && req.status === 'Pending' && (
-                  <td>
-                    <button className="btn btn-primary" onClick={() => handleApprove(req.id)}>Approve</button>
+                {(userType === 'admin' || userType === 'merchant') && (
+                  <td className="action-buttons">
+                    {userType === 'admin' && req.status === 'Pending' && (
+                      <button className="btn btn-primary" onClick={() => handleApprove(req.id)}>Approve</button>
+                    )}
+                    {userType === 'merchant' && (
+                      <button className="btn btn-danger" onClick={() => handleDelete(req.id)}>Delete</button>
+                    )}
                   </td>
                 )}
               </tr>

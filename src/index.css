@@ -19,7 +19,7 @@ body {
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
-  color:#A9F05D;
+  color: #A9F05D;
 }
 
 .landing-overlay h1 {
@@ -71,6 +71,22 @@ body {
   background-color: #c82333;
 }
 
+.btn-danger {
+  background-color: #ff4d4d;
+}
+
+.btn-danger:hover {
+  background-color: #cc0000;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
 /* Form Styles */
 .auth-container {
   min-height: 100vh;
@@ -96,6 +112,14 @@ body {
   text-align: center;
 }
 
+.form-container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
@@ -106,7 +130,8 @@ body {
   color: #333;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -132,4 +157,74 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 1rem;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+}
+
+.sidebar a:hover {
+  color: #A9F05D;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.table-container {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
 }

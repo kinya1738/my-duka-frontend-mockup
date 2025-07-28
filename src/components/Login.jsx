@@ -24,7 +24,13 @@ function Login() {
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('refresh_token', data.refresh_token)
       localStorage.setItem('user_type', data.user_type)
-      navigate('/dashboard')
+      if (data.user_type === 'merchant') {
+        navigate('/merchant-dashboard')
+      } else if (data.user_type === 'admin') {
+        navigate('/admin-dashboard')
+      } else if (data.user_type === 'clerk') {
+        navigate('/clerk-dashboard')
+      }
     } catch (err) {
       setError(err.message)
     }
