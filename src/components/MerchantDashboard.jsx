@@ -7,7 +7,6 @@ import Transactions from './Transactions.jsx'
 import SupplyRequests from './SupplyRequests.jsx'
 import Admins from './Admins.jsx'
 import Clerks from './Clerks.jsx'
-import Profile from './Profile.jsx'
 import Reports from './Reports.jsx'
 
 function MerchantDashboard() {
@@ -64,8 +63,6 @@ function MerchantDashboard() {
         return <Admins />
       case 'clerks':
         return <Clerks />
-      case 'profile':
-        return <Profile />
       case 'reports':
         return <Reports />
       default:
@@ -78,7 +75,6 @@ function MerchantDashboard() {
       <div className="sidebar">
         <h2>MyDuka Merchant Dashboard</h2>
         <ul>
-          <li><Link to="#" onClick={() => setActiveSection('profile')}>Profile</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('stores')}>Stores</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('products')}>Products</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('admins')}>Admins</Link></li>

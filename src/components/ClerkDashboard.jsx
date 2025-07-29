@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom'
 import Inventory from './Inventory.jsx'
 import Transactions from './Transactions.jsx'
 import SupplyRequests from './SupplyRequests.jsx'
-import Profile from './Profile.jsx'
 
 function ClerkDashboard() {
   const [activeSection, setActiveSection] = useState('overview')
@@ -31,8 +30,6 @@ function ClerkDashboard() {
         return <Transactions />
       case 'supply_requests':
         return <SupplyRequests />
-      case 'profile':
-        return <Profile />
       default:
         return <h2>Clerk Dashboard Overview</h2>
     }
@@ -43,7 +40,6 @@ function ClerkDashboard() {
       <div className="sidebar">
         <h2>MyDuka Clerk Dashboard</h2>
         <ul>
-          <li><Link to="#" onClick={() => setActiveSection('profile')}>Profile</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('inventory')}>Inventory</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('transactions')}>Transactions</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('supply_requests')}>Supply Requests</Link></li>

@@ -5,7 +5,6 @@ import Inventory from './Inventory.jsx'
 import Transactions from './Transactions.jsx'
 import SupplyRequests from './SupplyRequests.jsx'
 import Clerks from './Clerks.jsx'
-import Profile from './Profile.jsx'
 import Reports from './Reports.jsx'
 
 function AdminDashboard() {
@@ -38,8 +37,6 @@ function AdminDashboard() {
         return <SupplyRequests />
       case 'clerks':
         return <Clerks />
-      case 'profile':
-        return <Profile />
       case 'reports':
         return <Reports />
       default:
@@ -52,7 +49,6 @@ function AdminDashboard() {
       <div className="sidebar">
         <h2>MyDuka Admin Dashboard</h2>
         <ul>
-          <li><Link to="#" onClick={() => setActiveSection('profile')}>Profile</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('products')}>Products</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('clerks')}>Clerks</Link></li>
           <li><Link to="#" onClick={() => setActiveSection('inventory')}>Inventory</Link></li>
